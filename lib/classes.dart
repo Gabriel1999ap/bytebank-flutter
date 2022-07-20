@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, duplicate_ignore
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -54,10 +56,20 @@ class Transferencia {
   final int numeroConta;
 
   Transferencia(this.valor, this.numeroConta);
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return 'Transferencia{valor: $valor, numeroConta: $numeroConta';
+  }
 }
 
 //stl
 class FormularioTransferencia extends StatelessWidget {
+  final TextEditingController _controladorCampoNumeroConta =
+      TextEditingController();
+  final TextEditingController _controladorCampoValor = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +82,7 @@ class FormularioTransferencia extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
+                controller: _controladorCampoNumeroConta,
                 style: TextStyle(fontSize: 20.0),
                 decoration: InputDecoration(
                     labelText: 'Número da conta', hintText: '0000'),
@@ -79,6 +92,7 @@ class FormularioTransferencia extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
+                controller: _controladorCampoValor,
                 style: TextStyle(fontSize: 20.0),
                 decoration: InputDecoration(
                     labelText: 'Valor Transferência',
@@ -88,7 +102,20 @@ class FormularioTransferencia extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  debugPrint('clicou em confirmar');
+
+                  final int? numeroConta =
+                      int.tryParse(_controladorCampoNumeroConta.text);
+                  final double? valor =
+                      double.tryParse(_controladorCampoValor.text);
+
+                  if (numeroConta != null && valor != null) {
+                    final transferenciaCriada =
+                        Transferencia(valor, numeroConta);
+                    debugPrint('$transferenciaCriada');
+                  }
+                },
                 child: const Text(
                   'Confirmar',
                   style: TextStyle(fontSize: 24),
@@ -97,6 +124,8 @@ class FormularioTransferencia extends StatelessWidget {
         ));
   }
 }
+
+//stless
 
 class BytebankApp extends StatelessWidget {
   @override
