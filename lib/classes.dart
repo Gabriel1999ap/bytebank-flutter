@@ -7,8 +7,11 @@ import 'package:flutter/material.dart';
 // ignore: use_key_in_widget_constructors
 
 class ListaTransferencias extends StatelessWidget {
+  final List<Transferencia> _transferencias = [];
+
   @override
   Widget build(BuildContext context) {
+    _transferencias.add(Transferencia(500, 2341));
     // ignore: todo
     // TODO: implement build
 
@@ -17,8 +20,11 @@ class ListaTransferencias extends StatelessWidget {
         title: Text('Transferências'),
       ),
       body: ListView.builder(
-        itemCount: ,
-        itemBuilder: ,
+        itemCount: _transferencias.length,
+        itemBuilder: (context, indice) {
+          final Transferencia = _transferencias[indice];
+          return ItemTransferencias(Transferencia);
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -26,7 +32,9 @@ class ListaTransferencias extends StatelessWidget {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
             return FormularioTransferencia();
           }));
-          future.then((TransferenciaRecebida) {});
+          future.then((TransferenciaRecebida) {
+            _transferencias.add(TransferenciaRecebida);
+          });
         },
         child: Icon(Icons.add),
       ),
